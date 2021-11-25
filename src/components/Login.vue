@@ -87,7 +87,6 @@
           if(result.meta.status !== 200)  return this.$message.error('登录失败')
           if(result.meta.status === 200){
             this.$message.success('登录成功')
-            console.log(result)
             //  token , 保存到客户端的 sessionStorage 中
             window.sessionStorage.setItem('token', result.data.token)
             //  通过编程式导航跳转到后代主页， 路由地址式 /home

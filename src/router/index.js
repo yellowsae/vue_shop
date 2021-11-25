@@ -4,6 +4,8 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login'
 //Home组件
 import Home from '../components/Home'
+import Welcome from '../components/Welcome'
+import User from '../components/user/User'
 Vue.use(VueRouter)
 
 
@@ -11,7 +13,12 @@ const router = new VueRouter({
   routes: [
     {path: '/', redirect: '/login'},
     {path: '/login',component: Login},
-    {path: '/home', component: Home}
+    {path: '/home', component: Home,
+      redirect: '/welcome',  // 配置路由重定向
+      children: [
+        {path: '/welcome', component: Welcome},
+        {path: '/users', component: User}
+      ]}
   ],
 })
 
@@ -31,4 +38,6 @@ router.beforeEach((to,from,next)=> {
   // 其他情况， 放行
   next()
 })
+
+
 export default router
