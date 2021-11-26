@@ -29,11 +29,20 @@ import {
   Col,
   Table,
   TableColumn,
+  Switch,
+  Tooltip,
+  Pagination,
+  Dialog,
+  MessageBox,
 } from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 
+Vue.use(Dialog)
+Vue.use(Pagination)
+Vue.use(Tooltip)
+Vue.use(Switch)
 Vue.use(TableColumn)
 Vue.use(Table)
 Vue.use(FormItem)
@@ -74,6 +83,8 @@ Vue.prototype.$http = axios
 
 // 消息提示 Element , 挂载到Vue的原型上
 Vue.prototype.$message = Message
+// 确认消息 弹框
+Vue.prototype.$confirm = MessageBox.confirm
 
 new Vue({
     router,
