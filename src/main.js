@@ -34,11 +34,18 @@ import {
   Pagination,
   Dialog,
   MessageBox,
+  Tag,
+  Tree,
+  Option,
 } from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 
+Vue.use(Option)
+Vue.use(Select)
+Vue.use(Tree)
+Vue.use(Tag)
 Vue.use(Dialog)
 Vue.use(Pagination)
 Vue.use(Tooltip)
