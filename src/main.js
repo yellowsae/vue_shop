@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import './assets/css/global.css'
 import 'animate.css';
+import TreeTable from 'vue-table-with-tree-grid'
+
 // 全部引入
 // import ElementUI from 'element-ui'
 
@@ -37,11 +39,13 @@ import {
   Tag,
   Tree,
   Option,
+  Cascader,
 } from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 
+Vue.use(Cascader)
 Vue.use(Option)
 Vue.use(Select)
 Vue.use(Tree)
@@ -70,6 +74,8 @@ Vue.use(BreadcrumbItem)
 Vue.use(Card)
 Vue.use(Col)
 Vue.use(Row)
+
+Vue.component('tree-table', TreeTable)
 
 Vue.config.productionTip = false
 
