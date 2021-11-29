@@ -74,11 +74,11 @@
       title="添加分类"
       :visible.sync="showCateDialogVisible"
       width="50%"
-      @close='addCateDialogClose'
+      @close='addCateDialogClosed'
       >
 <!--      显示的表单内容 -->
       <el-form ref="CateFormRef" :model="CateForm" :rules='CateFormRules' label-width="100px">
-        <el-form-item label="分类名称："  prop='name'>
+        <el-form-item label="分类名称："  >
           <el-input  v-model="CateForm.cat_name"></el-input>
         </el-form-item>
         <el-form-item label="父级分类：" >
@@ -141,8 +141,7 @@ export default {
       },
       // 规则
       CateFormRules: {
-        name: [{ required: true, message: '请输入分类名称', trigger: 'blur' },
-         ]
+        name: [{ required: true, message: '请输入分类名称', trigger: 'blur' },]
       },
 
       // 保存分类列表区
@@ -206,13 +205,29 @@ export default {
       }
     },
 
+    // 点击按钮，添加新的分类
     addCate() {
-      console.log(this.CateForm)
+      this.$refs.CateFormRef.validate(async valid => {
+        if (!valid) return
+        const { data: res } = await this.$http.post(
+          'categories',
+          this.CateForm
+        )
+        if (res.meta.status !== 201) {
+          return this.$message.error('添加分类失败！')
+        }
+        this.$message.success('添加分类成功！')
+        await this.getCateList()
+        this.showCateDialogVisible = false
+      })
     },
-    // 关闭对话框
-    addCateDialogClose() {
+    // 监听对话框的关闭事件，重置表单数据
+    addCateDialogClosed() {
       this.$refs.CateFormRef.resetFields()
-    },
+      this.seleteKeys = []
+      this.CateForm.cat_level = 0
+      this.CateForm.cat_pid = 0
+    }
   },
 }
 </script>
