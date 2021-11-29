@@ -146,13 +146,14 @@ export default {
 
       // 保存分类列表区
       CateList: [],
+      //
       cascaderProps: {
         expandTrigger: 'hover',
         value: 'cat_id',
         label: 'cat_name',
         children: 'children'
       },
-      //
+      // 保存的键值
       seleteKeys: [],
     }
   },
@@ -205,6 +206,15 @@ export default {
       }
     },
 
+    // 监听对话框的关闭事件，重置表单数据
+    addCateDialogClosed() {
+      this.$refs.CateFormRef.resetFields()
+      this.seleteKeys = []
+      this.CateForm.cat_level = 0
+      this.CateForm.cat_pid = 0
+      this.CateForm.cat_name = ''
+    },
+
     // 点击按钮，添加新的分类
     addCate() {
       this.$refs.CateFormRef.validate(async valid => {
@@ -221,13 +231,6 @@ export default {
         this.showCateDialogVisible = false
       })
     },
-    // 监听对话框的关闭事件，重置表单数据
-    addCateDialogClosed() {
-      this.$refs.CateFormRef.resetFields()
-      this.seleteKeys = []
-      this.CateForm.cat_level = 0
-      this.CateForm.cat_pid = 0
-    }
   },
 }
 </script>
