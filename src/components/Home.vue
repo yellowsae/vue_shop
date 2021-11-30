@@ -199,7 +199,6 @@ export default {
 .el-header img {
   width: 90px;
   height: 90px;
-  border-radius: 50%;
 }
 
 .el-aside {
