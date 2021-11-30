@@ -40,11 +40,17 @@ import {
   Tree,
   Option,
   Cascader,
+  Alert,
+  Tabs,
+  TabPane
 } from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Alert)
 Vue.use(Cascader)
 Vue.use(Option)
 Vue.use(Select)
