@@ -4,7 +4,9 @@
 <!--      头部 -->
       <el-header>
         <div>
-          <img src='../assets/miku.png' alt=''>
+          <a href='/welcome#/welcome'>
+            <img src='../assets/miku.png' alt=''>
+          </a>
           <span>电商后台系统</span>
         </div>
         <!--   实现退出功能 -->
