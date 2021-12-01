@@ -42,12 +42,20 @@ import {
   Cascader,
   Alert,
   Tabs,
-  TabPane
+  TabPane,
+  Step,
+  Steps,
+  CheckboxGroup,
+  Checkbox,
 } from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 
+Vue.use(CheckboxGroup)
+Vue.use(Checkbox)
+Vue.use(Steps)
+Vue.use(Step)
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Alert)
@@ -82,6 +90,23 @@ Vue.use(Col)
 Vue.use(Row)
 
 Vue.component('tree-table', TreeTable)
+
+// 定义全局的时间过滤器
+Vue.filter('dateFormat', function (originVal) {
+  const dt = new Date(originVal)  // 时间对象
+
+  const y = dt.getFullYear()
+  const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+  const d = (dt.getDate() + '').padStart(2, '0')
+
+  /* padStart(2, '0') 表示不足两位时候，再前面补上 0   */
+
+  const hh = (dt.getHours() + '').padStart(2, '0')
+  const mm = (dt.getMinutes() + '').padStart(2, '0')
+  const ss = (dt.getSeconds() + '').padStart(2, '0')
+
+  return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+})
 
 Vue.config.productionTip = false
 
