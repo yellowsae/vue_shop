@@ -83,8 +83,28 @@
         </el-tab-pane>
 
 <!--      分类数据渲染的静态属性列表   -->
-        <el-tab-pane label="商品属性"  name='2'>商品属性</el-tab-pane>
-        <el-tab-pane label="商品图片"  name='3'>商品图片</el-tab-pane>
+        <el-tab-pane label="商品属性"  name='2'>
+          <el-form-item
+            :label='item.attr_name'
+            :key='item.attr_id'
+            v-for='item in onlyTableData'>
+            <el-input v-model='item.attr_vals'></el-input>
+          </el-form-item>
+        </el-tab-pane>
+
+<!--        图片上传功能 -->
+        <el-tab-pane label="商品图片"  name='3'>
+          <el-upload
+            class="upload-demo"
+            :action="UploadUrl"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :headers='headersObj'
+            :on-success='handleSuccess'
+            list-type="picture">
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
+        </el-tab-pane>
         <el-tab-pane label="商品内容"  name='4'>商品内容</el-tab-pane>
       </el-tabs>
       </el-form>
@@ -110,6 +130,7 @@ export default {
         goods_weight: 0, // 商品重量
         // 商品所属的分类数组
         goods_cat: [],
+        pics: [],  // 图片上传后保存上传的地址
       },
       AddFormRules: {
         goods_name: [{ required: true, message: '请输入商品名称', trigger: 'blur'}],
@@ -127,6 +148,13 @@ export default {
       },        // 分类数据展示
       manyTableData: [],        // 分类数据的动态参数
       onlyTableData: [],   ///  分类数据的静态属性
+
+      UploadUrl: 'http://127.0.0.1:8888/api/private/v1/upload', // 上传图片的URL
+
+      // 为上传图片绑定token
+      headersObj: {
+        Authorization: window.sessionStorage.getItem('token')
+      },
     }
   },
   methods: {
@@ -176,6 +204,24 @@ export default {
         this.onlyTableData = result.data
       }
     },
+
+    // 图片预览图时触发的函数
+    handlePreview(file) {
+    },
+
+    // 删除图片时 触发的函数
+    handleRemove() {
+    },
+
+    // 文件上传成功时的钩子
+    handleSuccess(response) {
+      // 目的 ： 将图片上传后的数据，添加到 AddForm 表单中
+      //1. 将数据变为对象形式
+      const picsInfo = {pic : response.data.tmp_path}
+      //2. 添加到表单
+      this.AddForm.pics.push(picsInfo)
+      console.log(this.AddForm)
+    }
 
     //
   },

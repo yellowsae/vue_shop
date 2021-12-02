@@ -47,11 +47,13 @@ import {
   Steps,
   CheckboxGroup,
   Checkbox,
+  Upload,
 } from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 
+Vue.use(Upload)
 Vue.use(CheckboxGroup)
 Vue.use(Checkbox)
 Vue.use(Steps)
