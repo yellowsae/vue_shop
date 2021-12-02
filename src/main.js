@@ -5,6 +5,13 @@ import './assets/css/global.css'
 import 'animate.css';
 import TreeTable from 'vue-table-with-tree-grid'
 
+// 添加富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+// 富文本编辑器的样式
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
+
 // 全部引入
 // import ElementUI from 'element-ui'
 
@@ -91,6 +98,8 @@ Vue.use(Card)
 Vue.use(Col)
 Vue.use(Row)
 
+//富文本编辑器组件的使用
+Vue.use(VueQuillEditor)
 Vue.component('tree-table', TreeTable)
 
 // 定义全局的时间过滤器

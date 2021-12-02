@@ -38,7 +38,6 @@
         :tab-position="'left'"
         v-model="activeIndex"
         :before-leave='beforeLeave'>
-
 <!--        表单数据的基本信息 -->
         <el-tab-pane label="基本信息" name='0'>
           <el-form-item label='商品名称' prop='goods_name'>
@@ -105,10 +104,25 @@
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-tab-pane>
-        <el-tab-pane label="商品内容"  name='4'>商品内容</el-tab-pane>
+        <el-tab-pane label="商品内容"  name='4'>
+<!--          富文本组件 -->
+          <quill-editor v-model='AddForm.goods_introduce'></quill-editor>
+<!--          添加完成按钮 -->
+          <el-button type='primary' @click='add'>添加商品</el-button>
+        </el-tab-pane>
       </el-tabs>
       </el-form>
     </el-card>
+
+
+<!--    图片预览的对话框 -->
+    <el-dialog
+      title="图片预览"
+      :visible.sync="perviewVisible"
+      width='40%'
+     >
+      <img :src='perviewUrl' alt='' class='perviewImg'>
+    </el-dialog>
   </div>
 </template>
 
@@ -131,6 +145,8 @@ export default {
         // 商品所属的分类数组
         goods_cat: [],
         pics: [],  // 图片上传后保存上传的地址
+        goods_introduce: '',  // 商品的介绍
+        attrs: [],  // 商品的参数（数组），包含 `动态参数` 和 `静态属性`
       },
       AddFormRules: {
         goods_name: [{ required: true, message: '请输入商品名称', trigger: 'blur'}],
@@ -155,6 +171,11 @@ export default {
       headersObj: {
         Authorization: window.sessionStorage.getItem('token')
       },
+
+      // 预览图片的URL　
+      perviewUrl: '',
+      //预览图片的对话框
+      perviewVisible: false,
     }
   },
   methods: {
@@ -207,10 +228,22 @@ export default {
 
     // 图片预览图时触发的函数
     handlePreview(file) {
+      // file 接收到预览图片的信息
+      // 将图片预览信息的url保存
+      this.perviewUrl = file.response.data.url
+      // 显示对话框
+      this.perviewVisible = true
     },
 
     // 删除图片时 触发的函数
-    handleRemove() {
+    handleRemove(file) {
+      // file 删除图片时 返回的图片的数据
+      // 1. 获取将要删除图片的临时路径
+      const filePath = file.response.data.tmp_path
+      // 2. 根据获取到的路径找到这张图片的索引值
+      const index = this.AddForm.pics.findIndex(x => x.pic === filePath)
+      // 3. 根据索引值 用 splice()删除这张图片
+      this.AddForm.pics.splice(index,1)
     },
 
     // 文件上传成功时的钩子
@@ -220,10 +253,42 @@ export default {
       const picsInfo = {pic : response.data.tmp_path}
       //2. 添加到表单
       this.AddForm.pics.push(picsInfo)
-      console.log(this.AddForm)
-    }
+    },
 
-    //
+    // 添加商品
+    add() {
+      // 添加前的预验证
+      this.$refs.AddFormRulesRef.validate( async (valid) => {
+        if (!valid) return this.$message.error('请填写必要的表单选项！')
+        // 添加数据的逻辑
+        this.AddForm.goods_cat = this.AddForm.goods_cat.join(',')
+
+        // 处理动态参数
+        this.manyTableData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals}
+          // 将新对象添加到 attrs 上
+          this.AddForm.attrs.push(newInfo)
+        })
+        // 处理静态属性
+        this.onlyTableData.forEach(item => {
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value: item.attr_vals
+          }
+          this.AddForm.attrs.push(newInfo)
+        })
+
+        // 发起添加请求
+        const {data: result} = await this.$http.post('goods', this.AddForm)
+
+        if (result.meta.status !== 201) return this.$message.error('添加商品数据失败！')
+        this.$message.success('添加商品数据成功！')
+        // 条状页面
+        await this.$router.push('/goods')
+      })
+    }
   },
   computed: {
     // 获取到goods_cat 数组的最后一个值
@@ -243,4 +308,10 @@ export default {
 .el-checkbox {
   margin: 0 10px 0 0 !important;
 }
+
+.perviewImg {
+  width: 100%;
+}
+
+
 </style>
