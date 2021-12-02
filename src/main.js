@@ -5,6 +5,13 @@ import './assets/css/global.css'
 import 'animate.css';
 import TreeTable from 'vue-table-with-tree-grid'
 
+// 添加富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+// 富文本编辑器的样式
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
+
 // 全部引入
 // import ElementUI from 'element-ui'
 
@@ -42,12 +49,22 @@ import {
   Cascader,
   Alert,
   Tabs,
-  TabPane
+  TabPane,
+  Step,
+  Steps,
+  CheckboxGroup,
+  Checkbox,
+  Upload,
 } from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 
+Vue.use(Upload)
+Vue.use(CheckboxGroup)
+Vue.use(Checkbox)
+Vue.use(Steps)
+Vue.use(Step)
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Alert)
@@ -81,7 +98,26 @@ Vue.use(Card)
 Vue.use(Col)
 Vue.use(Row)
 
+//富文本编辑器组件的使用
+Vue.use(VueQuillEditor)
 Vue.component('tree-table', TreeTable)
+
+// 定义全局的时间过滤器
+Vue.filter('dateFormat', function (originVal) {
+  const dt = new Date(originVal)  // 时间对象
+
+  const y = dt.getFullYear()
+  const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+  const d = (dt.getDate() + '').padStart(2, '0')
+
+  /* padStart(2, '0') 表示不足两位时候，再前面补上 0   */
+
+  const hh = (dt.getHours() + '').padStart(2, '0')
+  const mm = (dt.getMinutes() + '').padStart(2, '0')
+  const ss = (dt.getSeconds() + '').padStart(2, '0')
+
+  return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+})
 
 Vue.config.productionTip = false
 

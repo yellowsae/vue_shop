@@ -284,14 +284,14 @@ export default {
     // 监听 pagesize 改变 事件来处理页码大小
     handleSizeChange(val) {
     //   接收到参数 val 显示最新的页码值
-      this.queryInfo.pagenum = val   // 修改请求的页码大小， 请求参数
+      this.queryInfo.pagesize = val   // 修改请求的页码大小， 请求参数
       this.getUserInfo()  // 调用函数，重新获取数据
 
     },
 
     // 监听最新的页码值
     handleCurrentChange(val) {
-      this.queryInfo.pagesize = val  // 修改要显示页码
+      this.queryInfo.pagenum = val  // 修改要显示页码
       this.getUserInfo()  // 重新发起请求
     },
 
