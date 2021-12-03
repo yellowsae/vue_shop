@@ -12,7 +12,7 @@
 <!--        row 区域 -->
         <el-row :gutter='20'>
 <!--          文本框区 -->
-          <el-col :span='8'>
+          <el-col :span='8' >
             <el-input
               clearable
               @clear='getGoodsList'

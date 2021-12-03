@@ -55,11 +55,16 @@ import {
   CheckboxGroup,
   Checkbox,
   Upload,
+  Timeline,
+  TimelineItem,
 } from 'element-ui'
 
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 
+
+Vue.use(TimelineItem)
+Vue.use(Timeline)
 Vue.use(Upload)
 Vue.use(CheckboxGroup)
 Vue.use(Checkbox)
