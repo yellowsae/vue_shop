@@ -12,6 +12,7 @@
       <el-table
         border
         stripe
+        row-key='id'
        :data='rightsList'>
         <el-table-column type='index' label='#'></el-table-column>
         <el-table-column label='权限名称' prop='authName'></el-table-column>

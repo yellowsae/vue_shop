@@ -71,7 +71,7 @@ export default {
 
     if (result.meta.status !== 200) return this.$message.error('获取数据折线图失败')
 
-    // 将数据进行合并 
+    // 将数据进行合并
     Object.assign(this.options,result.data)
     //5. 使用刚指定的配置项和数据显示图表。
     myChart.setOption(this.options)

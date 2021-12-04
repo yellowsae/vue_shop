@@ -12,6 +12,9 @@ import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
 
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 // 全部引入
 // import ElementUI from 'element-ui'
 
@@ -129,14 +132,22 @@ Vue.config.productionTip = false
 // 配置请求的根路径
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 
+
 // 配置 axios拦截器 加 token 验证 ， 通过axios 请求拦截器添加的token , 保证拥有获取数据的权限
+// 在 request 拦截器中，展示进度条 NProgress.start()
+// NProgress.done();
 axios.interceptors.request.use(Config => {
+  NProgress.start()
   // 为请头添加token 验证的 Authorization 字段
   Config.headers.Authorization = window.sessionStorage.getItem('token')
   // console.log(Config)    // 返回的是一个请求的参数, 可以配置请求头， 添加参数
   return Config
 })
 
+axios.interceptors.response.use(Config => {
+  NProgress.done()
+  return Config
+})
 
 // 将网络请求包 axios 添加到Vue的原型上
 Vue.prototype.$http = axios
@@ -147,6 +158,6 @@ Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 
 new Vue({
-    router,
-    render: h => h(App)
+  router,
+  render: h => h(App)
 }).$mount('#app')
