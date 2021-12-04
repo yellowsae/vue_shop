@@ -4,7 +4,7 @@
 <!--      头部 -->
       <el-header>
         <div>
-          <a href='/welcome#/welcome'>
+          <a href='https://github.com/yellowsae'>
             <img src='../assets/miku.png' alt=''>
           </a>
           <span>电商后台系统</span>
