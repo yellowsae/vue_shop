@@ -10,7 +10,7 @@
 <!--  卡片视图 -->
     <el-card>
       <!-- 2. 为 ECharts 准备一个定义了宽高的 DOM -->
-      <div id="main" style="width: 600px;height:400px;"></div>
+      <div id="main" style="width: 750px;height:400px;"></div>
     </el-card>
 </div>
 </template>
@@ -24,39 +24,57 @@ export default {
   name: 'Report',
   data () {
     return {
+      // 需要合并的数据
+      options: {
+        title: {
+          text: '用户来源'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#E9EEF3'
+            }
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            boundaryGap: false
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ]
+      },
     }
   },
   created () {},
 
   // 在模板挂载后执行初始化 echarts
-  mounted () {
+  async mounted () {
     //3.  准备好的dom，初始化echarts实例
     let myChart = echarts.init(document.getElementById('main'))
 
     //4.  指定图表的配置项和数据
-    let option = {
-      title: {
-        text: 'ECharts 入门示例'
-      },
-      tooltip: {},
-      legend: {
-        data: ['销量']
-      },
-      xAxis: {
-        data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-      },
-      yAxis: {},
-      series: [
-        {
-          name: '销量',
-          type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
-        }
-      ]
-    }
 
+    // 发起请求获取数据
+    const {data: result} =  await this.$http.get('reports/type/1')
+
+    if (result.meta.status !== 200) return this.$message.error('获取数据折线图失败')
+
+    // 将数据进行合并 
+    Object.assign(this.options,result.data)
     //5. 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option)
+    myChart.setOption(this.options)
   },
   methods: {},
 }
