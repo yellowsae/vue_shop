@@ -1,24 +1,35 @@
 # vue_shop
 
-## Project setup
+### 项目初始化
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 启动项目
+
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 打包构建
+
 ```
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+### 项目预览
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+登录页面
+
+![login](https://gitee.com/yunhai0644/imghub/raw/master/20220330173811.png)
+
+
+
+用户页面
+
+![user](https://gitee.com/yunhai0644/imghub/raw/master/20220330173914.png)
+
+![shoplist](https://gitee.com/yunhai0644/imghub/raw/master/20220330173922.png)
+
+![charView](https://gitee.com/yunhai0644/imghub/raw/master/20220330173933.png)
